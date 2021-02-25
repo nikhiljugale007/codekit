@@ -1,35 +1,21 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import Question from "../components/Question";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import QuestionFilter from "../components/QuestionFilter";
 const Practise = () => {
-	const [data, setData] = React.useState([
-		{
-			id: 1,
-			name: " Shuffle String",
-			difficulty: "Easy",
-			submission: 10,
-		},
-		{
-			id: 2,
-			name: "1486. XOR Operation in an Array",
-			difficulty: "Medium",
-			submission: 10,
-		},
-		{
-			id: 3,
-			name: "Shuffle the Array",
-			difficulty: "Easy",
-			submission: 10,
-		},
-		{
-			id: 4,
-			name: "Chintu and Pintu Chintu and pintu",
-			difficulty: "Hard",
-			submission: 10,
-		},
-	]);
+	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(false);
+	useEffect(() => {
+		setLoading(true);
+		const apiUrl = "https://codekit-backend.herokuapp.com/api/questions";
+		fetch(apiUrl)
+			.then((res) => res.json())
+			.then((questions) => {
+				setData(questions);
+			});
+	}, []);
 
 	return (
 		<div>
@@ -59,11 +45,11 @@ const Practise = () => {
 						{data.map((question, index) => (
 							<tr scope="row">
 								<td>{index + 1}</td>
-								<td>{question.name}</td>
+								<td>{question.question_name}</td>
 								<td>{question.difficulty}</td>
-								<td>{question.submission}</td>
+								<td>{question.submissions}</td>
 								<td>
-									<Link to={`/problems/${question.name}`}>
+									<Link to={`/problems/${question._id}`}>
 										<button type="button" class="btn btn-success">
 											Solve
 										</button>

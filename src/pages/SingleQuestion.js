@@ -1,5 +1,7 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import AceEditor from "react-ace";
+import { useParams } from "react-router-dom";
 import "ace-builds/src-noconflict/theme-solarized_dark";
 import "./SingleQuestion.css";
 const axios = require("axios");
@@ -10,8 +12,11 @@ const axios = require("axios");
 
 // Client Secret Key: 9c4e7cb63a92ec96a7263a7132b8233f0a82c02e
 
-const SingleQuestion = () => {
+const SingleQuestion = (props) => {
 	const [code, setCode] = React.useState("");
+
+	const { hanlde } = props.match.params;
+	console.log(hanlde);
 
 	function onChange(newValue) {
 		setCode(newValue);
@@ -28,19 +33,116 @@ const SingleQuestion = () => {
 
 		axios.post(url, data).then(function (response) {
 			console.log(response);
+			// alert(response);
 		});
 	}
+	const [question, setQuestion] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const GetQuestion = () => {
+		axios
+			.get(`https://codekit-backend.herokuapp.com/api/questions/${slug}`)
+			.then((response) => {
+				setQuestion(response);
+				setLoading(false);
+			})
+			.catch((err) => console.error(`Error : {err}`));
+
+		return <></>;
+	};
+
+	const { slug } = useParams();
+
+	useEffect(() => {
+		setLoading(true);
+		// alert(slug);
+		GetQuestion();
+		console.log(question);
+	}, []);
+
 	return (
 		<>
-			{/* question name
-        difficuly tags
-        question discription
-        input
-        output
-        example
-        constraint
-        code editor */}
-			<div className="question-cotainer">
+			{loading ? (
+				<h4>Question is loading... Please want</h4>
+			) : (
+				<>
+					<div className="question-cotainer">
+						<div className="question-title">{question.data.question_name}</div>
+						<hr />
+						<div className="question-extras">
+							<div className="question-difficulty">
+								Difficulty: {question.data.difficulty}
+							</div>
+							<div className="question-tags">Tags:Coming Soon</div>
+						</div>
+						<hr />
+						<div className="question-description">
+							<h6>Description:</h6>
+							<p>{question.data.description}</p>
+						</div>
+						<hr />
+						<div>
+							<h6>Input:</h6>
+							<p>{question.data.input}</p>
+						</div>
+						<hr />
+						<div>
+							<h6>Output:</h6>
+							<p>{question.data.output}</p>
+						</div>
+						<hr />
+						<div>
+							<h6>Constraint:</h6>
+							<p>{question.data.constraints}</p>
+						</div>
+						<hr />
+						<div>
+							<h6>Sample Input:</h6>
+							<p>{question.data.sample_input}</p>
+						</div>
+						<hr />
+						<div>
+							<h6>Sample Output:</h6>
+							<p>{question.data.sample_output}</p>
+						</div>
+						<hr />
+						<div>
+							<h6>Write Code here:</h6>
+							<div className="editor-container">
+								<AceEditor
+									mode="java"
+									theme="solarized_dark"
+									onChange={onChange}
+									name="editor"
+									fontSize="18px"
+									width="80%"
+									height="600px"
+									placeholder="write your code here"
+									enableBasicAutocompletion="true"
+									enableLiveAutocompletion="true"
+									editorProps={{ $blockScrolling: true }}
+									value={code}
+									onChange={onChange}
+									// setOptions={{
+									// 	enableBasicAutocompletion: true,
+									// 	enableLiveAutocompletion: true,
+									// 	enableSnippets: true,
+									// }}
+								/>
+								<button
+									onClick={evaluateCode}
+									className="btn btn-primary btn-submit"
+								>
+									Submit
+								</button>
+							</div>
+						</div>
+						<hr />
+					</div>
+				</>
+			)}
+			{/* <div className="question-cotainer">
+				{slug}
+				{console.log(question.data.input)}
 				<div className="question-title">Even Sum</div>
 				<hr />
 				<div className="question-extras">
@@ -133,7 +235,7 @@ const SingleQuestion = () => {
 					</div>
 				</div>
 				<hr />
-			</div>
+			</div> */}
 		</>
 	);
 };
