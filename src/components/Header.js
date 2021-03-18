@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FaAlignRight } from "react-icons/fa";
+import { GoogleLogin } from "react-google-login";
+import { useState, useEffect } from "react";
 import logo from "../images/logo.svg";
 
 export default class Header extends Component {
 	state = {
 		isOpen: false,
 		isLogged: false,
+		userPofileLink: "/profile",
+		userName: "usename",
 	};
 	handleToggle = () => {
 		this.setState({ isOpen: !this.state.isOpen });
 	};
-	handleLogin = () => {
-		this.setState({ isLogged: !this.state.isLogged });
-	};
+
 	render() {
 		return (
 			<nav className="navbar">
@@ -46,10 +48,12 @@ export default class Header extends Component {
 					</ul>
 
 					<div className="nav-links">
-						<Link to="/">{this.state.isLogged ? "Login" : "username"}</Link>
-						<button className="nav-btn-login" onClick={this.handleLogin}>
-							login
-						</button>
+						<Link to="/profile" className=" btn-secondary">
+							<h4 id="username">{this.state.userName}</h4>
+						</Link>
+						<Link to="/login">
+							<button>Login</button>
+						</Link>
 					</div>
 				</div>
 			</nav>

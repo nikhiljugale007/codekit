@@ -6,6 +6,9 @@ import Blogs from "./pages/Blogs";
 import Practise from "./pages/Practise";
 import SingleQuestion from "./pages/SingleQuestion";
 import Error from "./components/Error";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
 import { Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -15,6 +18,9 @@ function App() {
 			<Header />
 			<Switch>
 				<Route exact path="/" component={Home}></Route>
+				<Route exact path="/login" component={Login}></Route>
+				<Route exact path="/signup" component={SignUp}></Route>
+				<Route exact path="/profile" component={Profile}></Route>
 				<Route exact path="/problems" component={Practise}></Route>
 				<Route exact path="/contest" component={Contest}></Route>
 				<Route exact path="/blogs" component={Blogs}></Route>

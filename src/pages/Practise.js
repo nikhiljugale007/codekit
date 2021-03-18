@@ -4,6 +4,8 @@ import Question from "../components/Question";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import QuestionFilter from "../components/QuestionFilter";
+import ReactLoading from "react-loading";
+
 const Practise = () => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -13,6 +15,7 @@ const Practise = () => {
 		fetch(apiUrl)
 			.then((res) => res.json())
 			.then((questions) => {
+				setLoading(false);
 				setData(questions);
 			});
 	}, []);
@@ -30,7 +33,47 @@ const Practise = () => {
 
 			<QuestionFilter />
 
-			<div style={{ width: "70%", margin: "10px auto" }}>
+			{loading ? (
+				<div className="question-container">
+					<div style={{ marginLeft: "48%" }}>
+						<ReactLoading type={"bars"} color={"blue"} />
+					</div>
+				</div>
+			) : (
+				<div style={{ width: "70%", margin: "10px auto" }}>
+					<Table bordered hover shadow>
+						<thead class="thead-dark">
+							<tr>
+								<th>#</th>
+								<th>Question</th>
+								<th>Difficulty</th>
+								<th>Submissions</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{data.map((question, index) => (
+								<tr scope="row">
+									<td>{index + 1}</td>
+									<td>{question.question_name}</td>
+									<td>{question.difficulty}</td>
+									<td>{question.submissions}</td>
+									<td>
+										<Link to={`/problems/${question._id}`}>
+											<button type="button" class="btn btn-success">
+												Solve
+											</button>
+										</Link>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</Table>
+				</div>
+			)}
+
+			{/* <div style={{ width: "70%", margin: "10px auto" }}>
 				<Table bordered hover shadow>
 					<thead class="thead-dark">
 						<tr>
@@ -41,6 +84,7 @@ const Practise = () => {
 							<th>Status</th>
 						</tr>
 					</thead>
+
 					<tbody>
 						{data.map((question, index) => (
 							<tr scope="row">
@@ -59,7 +103,7 @@ const Practise = () => {
 						))}
 					</tbody>
 				</Table>
-			</div>
+			</div> */}
 		</div>
 	);
 };

@@ -4,6 +4,8 @@ import AceEditor from "react-ace";
 import { useParams } from "react-router-dom";
 import "ace-builds/src-noconflict/theme-solarized_dark";
 import "./SingleQuestion.css";
+import ReactLoading from "react-loading";
+
 const axios = require("axios");
 
 // Hostname: https://nikhiljugale007.netlify.app/
@@ -62,7 +64,11 @@ const SingleQuestion = (props) => {
 	return (
 		<>
 			{loading ? (
-				<h4>Question is loading... Please want</h4>
+				<div className="question-container">
+					<div style={{ marginLeft: "48%" }}>
+						<ReactLoading type={"bars"} color={"blue"} />
+					</div>
+				</div>
 			) : (
 				<>
 					<div className="question-cotainer">
