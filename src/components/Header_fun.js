@@ -46,7 +46,7 @@ const Header_fun = () => {
 					<div className="nav-links">
 						{isAuthenticated && (
 							<Link to="/profile" className=" btn-secondary">
-								<h4 id="username">{user.email}</h4>
+								<h6 id="username">{user.email}</h6>
 							</Link>
 						)}
 

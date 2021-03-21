@@ -20,9 +20,10 @@ body {
 	padding-top: 66px;
 	color: var(--mainBlack);
 	background: var(--offWhite);
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-family: sans-serif;
 	line-height: 1.4;
 }
+/* Verdana, Geneva, Tahoma, sans-serif; */
 h1 {
 	font-size: 3em;
 	line-height: 1;
@@ -44,12 +45,12 @@ h4 {
 }
 h5 {
 	font-size: 1em;
-	font-weight: bold;
+	font-weight: normal;
 	margin-bottom: 1.5em;
 }
 h6 {
 	font-size: 1em;
-	font-weight: bold;
+	font-weight: normal;
 	margin-bottom: 1.5em;
 }
 
@@ -131,7 +132,7 @@ h6 {
 	color: var(--mainBlack);
 	transition: var(--mainTransition);
 	text-align: center;
-	font-size: 1rem;
+	font-size: 0.8rem;
 	font-weight: 600;
 	letter-spacing: var(--mainSpacing);
 }
