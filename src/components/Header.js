@@ -4,6 +4,7 @@ import { FaAlignRight } from "react-icons/fa";
 import { GoogleLogin } from "react-google-login";
 import { useState, useEffect } from "react";
 import logo from "../images/logo.svg";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default class Header extends Component {
 	state = {
@@ -14,6 +15,10 @@ export default class Header extends Component {
 	};
 	handleToggle = () => {
 		this.setState({ isOpen: !this.state.isOpen });
+	};
+
+	loginUser = () => {
+		alert("LOGIN");
 	};
 
 	render() {
@@ -52,7 +57,9 @@ export default class Header extends Component {
 							<h4 id="username">{this.state.userName}</h4>
 						</Link>
 						<Link to="/login">
-							<button>Login</button>
+							<button id="button_login" onClick={this.loginUser()}>
+								Login
+							</button>
 						</Link>
 					</div>
 				</div>

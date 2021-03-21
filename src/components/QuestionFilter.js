@@ -1,7 +1,7 @@
 import React from "react";
 
 const QuestionFilter = () => {
-	const handleChange = () => {
+	const handleChange = (event) => {
 		console.log("handel change");
 	};
 	return (

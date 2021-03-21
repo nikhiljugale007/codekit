@@ -16,6 +16,12 @@ const axios = require("axios");
 
 const SingleQuestion = (props) => {
 	const [code, setCode] = React.useState("");
+	const [lang, setLang] = React.useState("c");
+	const [verdict, setVerdict] = React.useState(
+		"Your Code verdict will appear here after submission"
+	);
+	const [question, setQuestion] = useState([]);
+	const [loading, setLoading] = useState(true);
 
 	const { hanlde } = props.match.params;
 	console.log(hanlde);
@@ -24,22 +30,31 @@ const SingleQuestion = (props) => {
 		setCode(newValue);
 	}
 
-	const url =
-		"https://7f7cf77c.compilers.sphere-engine.com/api/v4/submissions?access_token=d646ebfeb70a973e3f42a085dd0cd1a9";
+	const url = "https://api.jdoodle.com/v1/execute";
 
 	function evaluateCode() {
-		const data = {
-			compilerId: 44,
-			source: code,
+		var program = {
+			script: code,
+			language: lang,
+			versionIndex: "0",
+			stdin: "4",
+			clientId: "d905c53c5330920d50e79face1243b95",
+			clientSecret:
+				"943c704c5f3ce40e29ef3f470fc4f06083e6800dfd54d8e3250b241884ee6f50",
 		};
 
-		axios.post(url, data).then(function (response) {
-			console.log(response);
-			// alert(response);
-		});
+		axios
+			.post(url, program)
+			.then((response) => {
+				alert("OUTPUT = " + response.data.output);
+				console.log(response.data);
+				setVerdict(response.data.output);
+			})
+			.catch((err) => {
+				alert("ERROR = " + err.message);
+			});
 	}
-	const [question, setQuestion] = useState([]);
-	const [loading, setLoading] = useState(true);
+
 	const GetQuestion = () => {
 		axios
 			.get(`https://codekit-backend.herokuapp.com/api/questions/${slug}`)
@@ -60,6 +75,10 @@ const SingleQuestion = (props) => {
 		GetQuestion();
 		console.log(question);
 	}, []);
+
+	function handleChange(event) {
+		setLang(event.target.value);
+	}
 
 	return (
 		<>
@@ -112,10 +131,30 @@ const SingleQuestion = (props) => {
 						</div>
 						<hr />
 						<div>
+							<form
+								className="filter-form"
+								style={{ width: "100px", marginLeft: "0px" }}
+							>
+								<div className="form-group">
+									<label htmlFor="difficulty">Select Language</label>
+									<select
+										name="difficulty"
+										id="difficulty"
+										onChange={handleChange}
+										className="form-control"
+									>
+										<option value="c">C</option>
+										<option value="cpp14">C++</option>
+										<option value="java">Java</option>
+										<option value="python3">Python</option>
+									</select>
+								</div>
+							</form>
+							<hr />
 							<h6>Write Code here:</h6>
 							<div className="editor-container">
 								<AceEditor
-									mode="java"
+									mode="cpp"
 									theme="solarized_dark"
 									onChange={onChange}
 									name="editor"
@@ -141,6 +180,11 @@ const SingleQuestion = (props) => {
 									Submit
 								</button>
 							</div>
+						</div>
+						<hr />
+						<div>
+							<h6>Code Verdict:</h6>
+							<p>{verdict}</p>
 						</div>
 						<hr />
 					</div>
