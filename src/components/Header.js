@@ -11,7 +11,7 @@ export default class Header extends Component {
 		isOpen: false,
 		isLogged: false,
 		userPofileLink: "/profile",
-		userName: "usename",
+		userName: "nikhiljugale007@gmail.com",
 	};
 	handleToggle = () => {
 		this.setState({ isOpen: !this.state.isOpen });
@@ -23,7 +23,7 @@ export default class Header extends Component {
 
 	render() {
 		return (
-			<nav className="navbar">
+			<nav className="navbar" style={{ fontSize: "2px" }}>
 				<div className="nav-center">
 					<div className="nav-header">
 						<div className="nav-links">

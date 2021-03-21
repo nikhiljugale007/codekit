@@ -10,7 +10,7 @@ import Error from "./components/Error";
 import Profile from "./pages/Profile";
 import Online_IDE from "./pages/Online_IDE";
 import { Switch, Route } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.css";
+// import "bootstrap/dist/css/bootstrap.css";
 
 function App() {
 	return (

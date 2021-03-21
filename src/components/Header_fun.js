@@ -41,9 +41,6 @@ const Header_fun = () => {
 						<li>
 							<Link to="/blogs">Blogs</Link>
 						</li>
-						<li>
-							<Link to="/online_ide">Online IDE</Link>
-						</li>
 					</ul>
 
 					<div className="nav-links">
