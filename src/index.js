@@ -9,7 +9,7 @@ ReactDOM.render(
 	<BrowserRouter>
 		<Auth0Provider
 			domain="nikhiljugale007.us.auth0.com"
-			clientId="4uik14rFy0WpilVY6hKpEcSmyHXDAmNU"
+			clientId="iBBYoCzheAFy2cIgIIsDdYQ9XHGMf2Ea"
 			redirectUri={window.location.origin}
 		>
 			<App />
@@ -17,3 +17,4 @@ ReactDOM.render(
 	</BrowserRouter>,
 	document.getElementById("root")
 );
+// mongodb+srv://nikhiljugale007:PIIoZYdKF9k5PaPY@cluster0.jytgl.mongodb.net/question?retryWrites=true&w=majority
