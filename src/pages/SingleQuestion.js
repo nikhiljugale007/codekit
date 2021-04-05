@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import "ace-builds/src-noconflict/theme-solarized_dark";
 import "./SingleQuestion.css";
 import ReactLoading from "react-loading";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const axios = require("axios");
 
@@ -15,8 +16,10 @@ const axios = require("axios");
 // Client Secret Key: 9c4e7cb63a92ec96a7263a7132b8233f0a82c02e
 
 const SingleQuestion = (props) => {
+	const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
 	const [code, setCode] = React.useState("");
 	const [lang, setLang] = React.useState("c");
+	const [checkAns, setCheckAns] = React.useState(false);
 	const [verdict, setVerdict] = React.useState(
 		"Your Code verdict will appear here after submission"
 	);
@@ -32,23 +35,61 @@ const SingleQuestion = (props) => {
 
 	const url = "https://api.jdoodle.com/v1/execute";
 
+	function updateUserDB() {
+		var temp_user = {
+			email: user.email,
+			problem_tag: question.data.tag,
+		};
+		// alert("UPDATING USER");
+		// axios
+		// 	.post(
+		// 		"https://codekit-user-registration.herokuapp.com/api/auth/updateuser",
+		// 		temp_user
+		// 	)
+		// 	.then((response) => {
+		// 		alert("UPDATED USER");
+		// 		console.log(response.data);
+		// 		var op1 = JSON.stringify(response.data.message);
+		// 		if (op1 === "UPDATED USER") {
+		// 			alert("Congrats you received 10 points");
+		// 		} else {
+		// 			alert("Network Error!, Your progess is not saved in our databse");
+		// 		}
+		// 	});
+	}
+
 	function evaluateCode() {
+		setCheckAns(true);
+
 		var program = {
 			script: code,
 			language: lang,
 			versionIndex: "0",
-			stdin: "4",
+			stdin: question.data.test_input,
 			clientId: "d905c53c5330920d50e79face1243b95",
 			clientSecret:
 				"943c704c5f3ce40e29ef3f470fc4f06083e6800dfd54d8e3250b241884ee6f50",
 		};
 
+		console.log(question.data);
+
 		axios
 			.post(url, program)
 			.then((response) => {
-				alert("OUTPUT = " + response.data.output);
+				setCheckAns(false);
 				console.log(response.data);
-				setVerdict(response.data.output);
+				var op1 = JSON.stringify(response.data.output);
+				var op2 = JSON.stringify(question.data.test_output);
+
+				if (op1 == op2) {
+					alert("Correct Output");
+					if (isAuthenticated) {
+						updateUserDB();
+					}
+				} else {
+					alert("Incorrect Output");
+				}
+				setVerdict(op1);
 			})
 			.catch((err) => {
 				alert("ERROR = " + err.message);
@@ -179,6 +220,11 @@ const SingleQuestion = (props) => {
 								>
 									Submit
 								</button>
+								{checkAns ? (
+									<ReactLoading type={"bars"} color={"blue"} />
+								) : (
+									<p>{verdict}</p>
+								)}
 							</div>
 						</div>
 						<hr />

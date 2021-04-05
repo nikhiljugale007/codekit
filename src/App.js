@@ -11,8 +11,37 @@ import Profile from "./pages/Profile";
 import Online_IDE from "./pages/Online_IDE";
 import { Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
+import { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+const axios = require("axios");
 
 function App() {
+	const { isAuthenticated, user } = useAuth0();
+
+	// useEffect(() => {
+	// 	alert("LOGIN");
+
+	// 	if (isAuthenticated) {
+	// 		var in_data = {
+	// 			email: user.email,
+	// 			problemsolved: [],
+	// 		};
+	// 		axios
+	// 			.post(
+	// 				"https://codekit-user-registration.herokuapp.com/api/auth/",
+	// 				in_data
+	// 			)
+	// 			.then((response) => {
+	// 				alert("r= " + response);
+	// 				console.log(response);
+	// 			})
+	// 			.catch((error) => {
+	// 				alert("e= " + error);
+	// 			});
+	// 	} else {
+	// 		alert("Not authencted");
+	// 	}
+	// }, [isAuthenticated]);
 	return (
 		<>
 			<Header_fun />
