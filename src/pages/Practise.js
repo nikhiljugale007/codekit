@@ -37,8 +37,8 @@ const Practise = () => {
 				<h1>Pick > Write > Submit</h1>
 				<div></div>
 				<p>
-					HandPicked 130 Coding Interview Questions The practice you need to ace
-					the coding interviews.Solve them and Check you knowledge.
+					Best HandPicked Coding Questions The practice you need to ace the
+					coding .Solve them and Check you knowledge.
 				</p>
 			</div>
 

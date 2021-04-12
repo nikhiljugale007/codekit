@@ -12,25 +12,25 @@ const Services = () => {
 		{
 			name: "Quality Question",
 			description:
-				"If you want to ace the coding interviews, being well-versed in all common data structures and popular problem-solving methods is paramount. With 130 questions spanning 15 categories and 4 difficulty levels, we've got you covered.",
+				"If you want to ace the coding , solve all common data structures and popular  handpicked questions of different categories and different difficulty levels.",
 			icon: <FaListOl />,
 		},
 		{
 			name: "Integrated IDE",
 			description:
-				"If you want to ace the coding interviews, being well-versed in all common data structures and popular problem-solving methods is paramount. With 130 questions spanning 15 categories and 4 difficulty levels, we've got you covered.",
+				"Solve questions in integrated IDE in your browser itself dont need any installed ide. We currently support four languages C, C++, Java and Python.",
 			icon: <FaLaptopCode />,
 		},
 		{
-			name: "Quality Editorials",
+			name: "Contest Filtering",
 			description:
-				"If you want to ace the coding interviews, being well-versed in all common data structures and popular problem-solving methods is paramount. With 130 questions spanning 15 categories and 4 difficulty levels, we've got you covered.",
+				"To know where you stand, participate in different compitions held online. We provide you all the compitions currently ongoing and future contest in realtime.",
 			icon: <FaStackOverflow />,
 		},
 		{
-			name: "Study Material",
+			name: "Career opportunities",
 			description:
-				"If you want to ace the coding interviews, being well-versed in all common data structures and popular problem-solving methods is paramount. With 130 questions spanning 15 categories and 4 difficulty levels, we've got you covered.",
+				"Get updates about latest internship and placement opportunities at one place. Get placement opportunities according to your passing year.",
 			icon: <FaBookReader />,
 		},
 	]);
@@ -47,10 +47,7 @@ const Services = () => {
 							<article key={`item-${item.name}`} className="service">
 								<span>{item.icon}</span>
 								<h6>{item.name}</h6>
-								<p>
-									{item.description}
-									<Link to="/rooms">Learn More</Link>
-								</p>
+								<p>{item.description}</p>
 							</article>
 						);
 					})}

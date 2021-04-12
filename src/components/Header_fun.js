@@ -39,7 +39,7 @@ const Header_fun = () => {
 							<Link to="/contest">Contest</Link>
 						</li>
 						<li>
-							<Link to="/blogs">Blogs</Link>
+							<Link to="/career">Careers</Link>
 						</li>
 					</ul>
 

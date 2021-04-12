@@ -126,7 +126,7 @@ const SingleQuestion = (props) => {
 			{loading ? (
 				<div className="question-container">
 					<div style={{ marginLeft: "48%" }}>
-						<ReactLoading type={"bars"} color={"blue"} />
+						<ReactLoading type={"spokes"} color={"blue"} />
 					</div>
 				</div>
 			) : (
