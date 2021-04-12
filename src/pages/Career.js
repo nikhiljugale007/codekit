@@ -11,7 +11,7 @@ const Blogs = () => {
 
 	useEffect(() => {
 		setLoading(true);
-		const apiUrl = "http://localhost:5000/api/careers";
+		const apiUrl = "https://codekit-backend.herokuapp.com/api/careers";
 		fetch(apiUrl)
 			.then((res) => res.json())
 			.then((careers) => {
