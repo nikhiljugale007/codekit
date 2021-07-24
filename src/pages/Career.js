@@ -9,6 +9,12 @@ const Blogs = () => {
 	const [careerList, setCareerList] = useState([]);
 	const [loading, setLoading] = useState(false);
 
+	const config = {
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+		},
+	};
 	useEffect(() => {
 		setLoading(true);
 		const apiUrl = "https://codekit-backend.herokuapp.com/api/careers";

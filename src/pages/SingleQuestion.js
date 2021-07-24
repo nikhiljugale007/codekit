@@ -71,6 +71,7 @@ const SingleQuestion = (props) => {
 				"943c704c5f3ce40e29ef3f470fc4f06083e6800dfd54d8e3250b241884ee6f50",
 		};
 
+		console.log(program);
 		console.log(question.data);
 
 		axios
@@ -81,7 +82,7 @@ const SingleQuestion = (props) => {
 				var op1 = JSON.stringify(response.data.output);
 				var op2 = JSON.stringify(question.data.test_output);
 
-				if (op1 == op2) {
+				if (op1.trim() == op2.trim()) {
 					alert("Correct Output");
 					if (isAuthenticated) {
 						updateUserDB();
@@ -92,6 +93,8 @@ const SingleQuestion = (props) => {
 				setVerdict(op1);
 			})
 			.catch((err) => {
+				setLoading(false);
+				setVerdict(err.message);
 				alert("ERROR = " + err.message);
 			});
 	}
