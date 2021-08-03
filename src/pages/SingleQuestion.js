@@ -9,11 +9,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const axios = require("axios");
 
-// Hostname: https://nikhiljugale007.netlify.app/
-
-// Client Id: a688500545ec811583316543b9f225b12c3799a51065.api.hackerearth.com
-
-// Client Secret Key: 9c4e7cb63a92ec96a7263a7132b8233f0a82c02e
+var HackerEarthAPI = require("node-hackerearth");
+var clientSecretKey = "9c4e7cb63a92ec96a7263a7132b8233f0a82c02e";
+var api = new HackerEarthAPI(clientSecretKey);
+var data = "print 'Hello World'";
 
 const SingleQuestion = (props) => {
 	const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
@@ -23,11 +22,12 @@ const SingleQuestion = (props) => {
 	const [verdict, setVerdict] = React.useState(
 		"Your Code verdict will appear here after submission"
 	);
+	const [output, setOutput] = React.useState("OUTPUT");
+
 	const [question, setQuestion] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	const { hanlde } = props.match.params;
-	console.log(hanlde);
 
 	function onChange(newValue) {
 		setCode(newValue);
@@ -60,43 +60,89 @@ const SingleQuestion = (props) => {
 
 	function evaluateCode() {
 		setCheckAns(true);
+		console.log(question);
+		// var program = {
+		// 	script: code,
+		// 	language: lang,
+		// 	versionIndex: "0",
+		// 	stdin: question.data.test_input,
+		// 	clientId: "d905c53c5330920d50e79face1243b95",
+		// 	clientSecret:
+		// 		"943c704c5f3ce40e29ef3f470fc4f06083e6800dfd54d8e3250b241884ee6f50",
+		// };
 
-		var program = {
-			script: code,
-			language: lang,
-			versionIndex: "0",
-			stdin: question.data.test_input,
-			clientId: "d905c53c5330920d50e79face1243b95",
-			clientSecret:
-				"943c704c5f3ce40e29ef3f470fc4f06083e6800dfd54d8e3250b241884ee6f50",
-		};
+		// console.log(program);
+		// console.log(question.data);
 
-		console.log(program);
-		console.log(question.data);
+		// const headers = {
+		// 	"content-type": "application/json",
+		// 	"client-secret": "9c4e7cb63a92ec96a7263a7132b8233f0a82c02e",
+		// };
 
-		axios
-			.post(url, program)
-			.then((response) => {
-				setCheckAns(false);
-				console.log(response.data);
-				var op1 = JSON.stringify(response.data.output);
-				var op2 = JSON.stringify(question.data.test_output);
+		// axios
+		// 	.post(url, program, {
+		// 		headers: headers,
+		// 	})
+		// 	.then((response) => {
+		// 		setCheckAns(false);
+		// 		console.log(response.data);
+		// 		var op1 = JSON.stringify(response.data.output);
+		// 		var op2 = JSON.stringify(question.data.test_output);
 
-				if (op1.trim() == op2.trim()) {
-					alert("Correct Output");
-					if (isAuthenticated) {
-						updateUserDB();
-					}
+		// 		if (op1.trim() == op2.trim()) {
+		// 			alert("Correct Output");
+		// 			if (isAuthenticated) {
+		// 				updateUserDB();
+		// 			}
+		// 		} else {
+		// 			alert("Incorrect Output");
+		// 		}
+		// 		setVerdict(op1);
+		// 	})
+		// 	.catch((err) => {
+		// 		setLoading(false);
+		// 		setVerdict(err.message);
+		// 		alert("ERROR = " + err.message);
+		// 	});
+
+		api.compile(
+			{ source: code, lang: lang, input: question.data.sample_input },
+			function (err, data) {
+				if (err) {
+					console.log(err.message);
 				} else {
-					alert("Incorrect Output");
+					console.log(JSON.stringify(data)); // Do something with your data
 				}
-				setVerdict(op1);
-			})
-			.catch((err) => {
-				setLoading(false);
-				setVerdict(err.message);
-				alert("ERROR = " + err.message);
-			});
+			}
+		);
+		api.run(
+			{
+				source: code,
+				lang: lang,
+				time_limit: 5,
+				input: question.data.sample_input,
+			},
+			function (err, data) {
+				if (err) {
+					console.log(err.message);
+					setCheckAns(false);
+					setVerdict(err.message);
+				} else {
+					console.log(data); // Do something with your data
+					setCheckAns(false);
+					var nikhil = JSON.stringify(question.data.sample_output + "\n");
+					var naina = JSON.stringify(data.run_status.output);
+					var temp_2 = nikhil.localeCompare(naina);
+					setOutput(nikhil + " " + naina);
+					if (temp_2 == 0) {
+						alert("Correct Answer");
+						setVerdict("Correct Answer");
+					} else {
+						setVerdict("Wrong Answer");
+					}
+				}
+			}
+		);
 	}
 
 	const GetQuestion = () => {
@@ -117,7 +163,6 @@ const SingleQuestion = (props) => {
 		setLoading(true);
 		// alert(slug);
 		GetQuestion();
-		console.log(question);
 	}, []);
 
 	function handleChange(event) {
@@ -187,10 +232,10 @@ const SingleQuestion = (props) => {
 										onChange={handleChange}
 										className="form-control"
 									>
-										<option value="c">C</option>
-										<option value="cpp14">C++</option>
-										<option value="java">Java</option>
-										<option value="python3">Python</option>
+										<option value="C">C</option>
+										<option value="CPP14">Cpp</option>
+										<option value="JAVA">Java</option>
+										<option value="PYTHON">Python</option>
 									</select>
 								</div>
 							</form>
@@ -226,7 +271,7 @@ const SingleQuestion = (props) => {
 								{checkAns ? (
 									<ReactLoading type={"bars"} color={"blue"} />
 								) : (
-									<p>{verdict}</p>
+									<p>{output}</p>
 								)}
 							</div>
 						</div>
